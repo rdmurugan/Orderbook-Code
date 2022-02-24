@@ -1,5 +1,5 @@
-Assumption: 
-
+Assumptions: 
+------------
 The following pre-requisites are completed. 
 Set up your organization resource
 Add users and groups to your organization
@@ -12,8 +12,8 @@ Set up networking configuration
 Set up logging and monitoring
 Configure security settings for apps and data
 
-Install and initialize the Google Cloud CLI.
-
+Install and initialize the Google Cloud CLI:
+---------------------------------------------
 gcloud init
 export PROJECT_ID=coredata-trial
 gcloud projects create $PROJECT_ID
@@ -42,11 +42,15 @@ export BUCKET_ID=coredatastore001
 
 gsutil mb gs://$BUCKET_ID
 
+
+Create PubSub topics: 
+----------------------
 gcloud pubsub topics create projects/coredata-trial/topics/GetOrderBook
 gcloud pubsub topics create projects/coredata-trial/topics/Orderbookfromexchanges
 
-Enable following API.
 
+Enable following APIs:
+---------------------
 Dataflow API
 Compute Engine API
 Cloud Logging API
@@ -58,20 +62,12 @@ Cloud Datastore API
 Cloud Resource Manager API
 
 
-
+Scheduler for 60 Secs data collection:
+----------------------------------------
 gcloud scheduler jobs create pubsub publisher-job --schedule="* */1 * * *" --topic=GetOrderBook --location=US --message-body="Hello!"
 gcloud scheduler jobs run publisher-job
 
+
+On-demand data loading:
+---------------------------
 gcloud pubsub topics publish GetOrderBook --message="Hello World!"
-
-
-
-Mid Price: for $100K
-
-
-
-Price range for each exchange for transaction at $50K
-
-
-
-

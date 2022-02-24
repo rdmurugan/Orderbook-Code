@@ -78,7 +78,7 @@ def hello_pubsub(event, context):
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(project_id, topic_id)
     
-    # get some orderbook data
+    # get orderbook data/ ETH and BTC URLS from different crypto exchanges
 
     binance_btc_api = "https://www.binance.com/api/v3/depth?symbol=BTCBUSD&limit=1000"
     binance_eth_api = "https://www.binance.com/api/v3/depth?symbol=ETHBUSD&limit=1000"
