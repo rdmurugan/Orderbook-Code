@@ -1,0 +1,77 @@
+Assumption: 
+
+The following pre-requisites are completed. 
+Set up your organization resource
+Add users and groups to your organization
+Set up administrator access to your organization
+Set up billing
+Set up the resource hierarchy
+Set up access control for your resource hierarchy
+Set up support
+Set up networking configuration
+Set up logging and monitoring
+Configure security settings for apps and data
+
+Install and initialize the Google Cloud CLI.
+
+gcloud init
+export PROJECT_ID=coredata-trial
+gcloud projects create $PROJECT_ID
+
+export SERVICE_ACCOUNT_NAME=CoreDataSrvc
+gcloud iam service-accounts create SERVICE_ACCOUNT_ID \
+    --description="service account for coredataservices" \
+    --display-name="coredatasrvc"
+
+export PROJECT_ID=$(gcloud config get-value project)
+
+export IAM_ACCOUNT=$SERVICE_ACCOUNT_NAME@$PROJECT_ID.iam.gserviceaccount.com
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member serviceAccount:$IAM_ACCOUNT \
+  --role roles/owner
+
+gcloud iam service-accounts add-iam-policy-binding \
+    SERVICE_ACCOUNT_ID@PROJECT_ID.iam.gserviceaccount.com \
+    --member="user:USER_EMAIL" \
+    --role="roles/iam.serviceAccountUser"
+
+export GOOGLE_APPLICATION_CREDENTIALS=path/to/your/credentials.json
+
+export BUCKET_ID=coredatastore001
+
+gsutil mb gs://$BUCKET_ID
+
+gcloud pubsub topics create projects/coredata-trial/topics/GetOrderBook
+gcloud pubsub topics create projects/coredata-trial/topics/Orderbookfromexchanges
+
+Enable following API.
+
+Dataflow API
+Compute Engine API
+Cloud Logging API
+Cloud Storage
+Google Cloud Storage JSON API
+BigQuery API
+Cloud Pub/Sub API
+Cloud Datastore API
+Cloud Resource Manager API
+
+
+
+gcloud scheduler jobs create pubsub publisher-job --schedule="* */1 * * *" --topic=GetOrderBook --location=US --message-body="Hello!"
+gcloud scheduler jobs run publisher-job
+
+gcloud pubsub topics publish GetOrderBook --message="Hello World!"
+
+
+
+Mid Price: for $100K
+
+
+
+Price range for each exchange for transaction at $50K
+
+
+
+
