@@ -8,8 +8,8 @@ select
     from (select 
     exchange, 
     symbol,
-    max (case when side='bids' then price end) as high_price, 
-    min (case when side='asks' then price end) as low_price,
+    min (case when side='bids' then price end) as high_price, 
+    max (case when side='asks' then price end) as low_price,
 from coredata-trial.orderbookdataset.orderbookcrypto group by exchange, symbol)
 
 
@@ -23,6 +23,6 @@ select
     from (select 
     exchange, 
     symbol,
-    max (case when side='bids' then price end) as high_price, 
-    min (case when side='asks' then price end) as low_price,
+    min (case when side='bids' then price end) as high_price, 
+    max (case when side='asks' then price end) as low_price,
 from coredata-trial.orderbookdataset.orderbookcrypto where cost between 49500 and 50500  group by exchange, symbol)
