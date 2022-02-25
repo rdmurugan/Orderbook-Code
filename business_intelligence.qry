@@ -1,0 +1,28 @@
+#What is the average mid-price per market? 
+#The below SQL would help extract the mid-price per market. 
+
+select 
+    exchange,
+    symbol,
+    cast ((high_price + low_price)/2 as float64) as buy_price
+    from (select 
+    exchange, 
+    symbol,
+    max (case when side='bids' then price end) as high_price, 
+    min (case when side='asks' then price end) as low_price,
+from coredata-trial.orderbookdataset.orderbookcrypto group by exchange, symbol)
+
+
+#which exchange would we prefer to execute a $50k buy or sell order on? At what price?
+#The below SQL would help extract the exchange and price per market. 
+
+select 
+    exchange,
+    symbol,
+    cast ((high_price + low_price)/2 as float64) as buy_price
+    from (select 
+    exchange, 
+    symbol,
+    max (case when side='bids' then price end) as high_price, 
+    min (case when side='asks' then price end) as low_price,
+from coredata-trial.orderbookdataset.orderbookcrypto where cost between 49500 and 50500  group by exchange, symbol)
